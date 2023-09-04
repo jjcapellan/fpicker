@@ -17,8 +17,14 @@
             <!-- *************************** tools ********************* -->
             <div class="panel-tools">
                 <div class="breadcrumb">
-                    {{range .Breadcrumb}}<span>{{.}}</span>/{{end}}
+                    {{range .Breadcrumb}}<span>{{.}}</span>/{{end}}                    
                 </div>
+                <label class="pointer sep" title="hide hidden files" for="toggle">
+                        <input class="toggle" type="checkbox" id="toggle">
+                        <svg class="panel-tools-icon toggle-icon" height="24" width="24">
+                            <use xlink:href="#icon-hidden"></use>               
+                        </svg>
+                    </label>
             </div>
 			<!-- *************************** places ********************* -->
             <div class="panel-places" id="panel-places">

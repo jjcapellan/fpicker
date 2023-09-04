@@ -131,6 +131,19 @@ body {
     color: inherit;
 }
 
+.toggle {
+    position: absolute;
+    top: -200%;
+}
+
+.toggle-icon {
+    opacity: 0.5;    
+}
+
+.toggle:checked + svg {
+    opacity: 1;
+}
+
 .icon-list {
     display: inherit;
     margin-left: auto;
@@ -154,10 +167,6 @@ body {
 .button:hover {
     background-color: var(--color-button-background-hover);
     color: var(--color-button-hover);
-}
-
-.sep {
-    margin-left: auto;
 }
 
 .panel-places {
@@ -254,4 +263,17 @@ body {
 
 .panel-files-time {
     margin-left: 0.5rem;
+}
+
+
+/*
+* Utility classes
+*/
+
+.sep {
+    margin-left: auto;
+}
+
+.pointer {
+    cursor: pointer;
 }
