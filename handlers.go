@@ -18,20 +18,34 @@ func handleFilePicker(w http.ResponseWriter, r *http.Request) {
 func handlePicker(w http.ResponseWriter, r *http.Request, isFilePicker bool) {
 	path := r.URL.Query().Get("path")
 	root := r.URL.Query().Get("root")
-	if path == "" || root == "" {
+	hideHiddenFiles := r.URL.Query().Get("hide")
+	hide := false
+
+	if path == "" || root == "" || hideHiddenFiles == "" {
 		root := home
-		show(w, root, home, isFilePicker)
+		show(w, root, home, isFilePicker, hide)
 		return
 	}
-	show(w, root, path, isFilePicker)
+
+	if hideHiddenFiles == "true" {
+		hide = true
+	}
+
+	show(w, root, path, isFilePicker, hide)
 }
 
-func show(w http.ResponseWriter, root string, path string, isFilePicker bool) {
+func show(w http.ResponseWriter, root string, path string, isFilePicker bool, hideHiddenFiles bool) {
 	root = pathToAbs(root)
 	path = pathToAbs(path)
 
 	breadcrumb := makeBreadcrumb(root, path)
 	currentFolder := filepath.Base(path)
+
+	if hideHiddenFiles {
+		fsinfo.ShowHiddenFiles(false)
+	} else {
+		fsinfo.ShowHiddenFiles(true)
+	}
 
 	fi, _ := fsinfo.GetFolderInfo(path)
 
@@ -48,6 +62,7 @@ func show(w http.ResponseWriter, root string, path string, isFilePicker bool) {
 		FolderPickerUrl   string
 		SelectedFileUrl   string
 		SelectedFolderUrl string
+		HideFiles         bool
 		IsFilePicker      bool
 	}{
 		root,
@@ -62,6 +77,7 @@ func show(w http.ResponseWriter, root string, path string, isFilePicker bool) {
 		FolderPickerUrl,
 		SelectedFileUrl,
 		SelectedFolderUrl,
+		hideHiddenFiles,
 		isFilePicker,
 	}
 	tmpl.ExecuteTemplate(w, "index.tmpl", data)

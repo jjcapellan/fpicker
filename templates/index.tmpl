@@ -19,8 +19,8 @@
                 <div class="breadcrumb">
                     {{range .Breadcrumb}}<span>{{.}}</span>/{{end}}                    
                 </div>
-                <label class="pointer sep" title="hide hidden files" for="toggle">
-                        <input class="toggle" type="checkbox" id="toggle">
+                <label class="pointer sep" title="Hidden files visivility" for="toggle">
+                        <input class="toggle" type="checkbox" id="toggle" {{if .HideFiles}}checked{{end}}>
                         <svg class="panel-tools-icon toggle-icon" height="24" width="24">
                             <use xlink:href="#icon-hidden"></use>               
                         </svg>

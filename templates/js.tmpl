@@ -3,6 +3,7 @@ const PLACES = document.getElementById("panel-places").getElementsByClassName("p
 const SELECTED_LABEL = document.getElementById("selected");
 const BUTTON_SELECT = document.getElementById("bt-select");
 const BUTTON_CANCEL = document.getElementById("bt-cancel");
+const BUTTON_HIDE = document.getElementById("toggle");
 
 window.onload = () => {
     // Removes query params
@@ -34,6 +35,7 @@ const SELECTED_URL = "{{.SelectedFolderUrl}}";
 {{end}}
 
 const root = "{{.Root}}"
+const hideHiddenFiles = {{if .HideFiles}}true{{else}}false{{end}};
 
 for (item of FOLDERS) {
     item.addEventListener("click", clickFolder);
@@ -45,16 +47,17 @@ for (item of PLACES) {
 
 BUTTON_SELECT.addEventListener("click", handlerSelect);
 BUTTON_CANCEL.addEventListener("click", handlerCancel);
+BUTTON_HIDE.addEventListener("change", handlerHide);
 
 function clickFolder(evt) {
     let path = evt.currentTarget.dataset.path;
-    let url = PICKER_URL + "?path=" + path + "&root=" + root;
+    let url = PICKER_URL + "?path=" + path + "&root=" + root + "&hide=" + hideHiddenFiles;
     window.location.replace(url);
 }
 
 function clickPlace(evt) {
     let path = evt.currentTarget.dataset.path;
-    let url = PICKER_URL + "?path=" + path + "&root=" + path;
+    let url = PICKER_URL + "?path=" + path + "&root=" + path + "&hide=" + hideHiddenFiles;
     window.location.replace(url);
 }
 
@@ -66,4 +69,11 @@ function handlerSelect(evt) {
 
 function handlerCancel(evt) {
     window.close();
+}
+
+function handlerHide(evt) {
+    let hide = evt.currentTarget.checked;
+    let path = "{{.Path}}";
+    const url = PICKER_URL + "?path=" + path + "&root=" + root + "&hide=" + hide;
+    window.location.replace(url);
 }
