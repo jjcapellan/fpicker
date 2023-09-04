@@ -53,10 +53,6 @@ function clickFolder(evt) {
 }
 
 function clickPlace(evt) {
-    /*let path = evt.currentTarget.dataset.path;
-    root = path;
-    resetPlaces();
-    evt.currentTarget.children[1].classList.add("panel-places-selected");*/
     let path = evt.currentTarget.dataset.path;
     let url = PICKER_URL + "?path=" + path + "&root=" + path;
     window.location.replace(url);
