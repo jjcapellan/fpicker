@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .IsFilePicker}}File selection{{else}}Folder selection{{end}}</title>
+</head>
+
+<style>
+{{ template "css.tmpl" }}
+</style>
+
+<body>
+    <div class="master">
+        <div class="container">
+            <!-- *************************** tools ********************* -->
+            <div class="panel-tools">
+                <div class="breadcrumb">
+                    {{range .Breadcrumb}}<span>{{.}}</span>/{{end}}
+                </div>
+            </div>
+			<!-- *************************** places ********************* -->
+            <div class="panel-places" id="panel-places">
+                <!-- *** Home *** -->
+			    <div class="panel-places-item" data-path="{{.Home}}">
+                    <svg class="panel-places-icon" height="32" width="32">
+                        <use xlink:href="#icon-home"></use>
+                    </svg>
+                    <span class="panel-places-label {{if eq .Root .Home}}panel-places-selected{{end}}">Home</span>
+                </div>
+                <!-- *** Drives *** -->
+                {{ $Root := .Root -}}
+				{{ range .Drives -}}
+                <div class="panel-places-item {{if eq $Root .Name}}panel-places-selected{{end}}" data-path="{{ .Path }}">
+                    <svg class="panel-places-icon" height="32" width="32">
+                        <use xlink:href="#icon-disk"></use>
+                    </svg>
+                    <span class="panel-places-label" {{if gt (len .Name) 12}}title="{{.Name}}"{{end}}>{{.Name}}</span>
+                </div>
+				{{ end -}}
+			</div>
+			<!-- ****************************** files and folders ******************** -->
+			<div class="panel-files" id="panel-files">
+			    <!-- *** folders *** -->
+                {{- if ne .Path .Root -}}
+                <div class="panel-files-item _d" data-path="{{ getParent .Path }}">
+                    <svg class="panel-files-icon">
+                        <use xlink:href="#icon-folder"></use>
+                    </svg>
+                    <span class="panel-files-label">../</span>
+                </div>
+                {{end}}
+				{{ range .Folders -}}
+                <div class="panel-files-item _d" data-path="{{ .Path }}">
+                    <svg class="panel-files-icon">
+                        <use xlink:href="#icon-folder"></use>
+                    </svg>
+                    <span class="panel-files-label">{{ .Name }}</span>
+                </div>
+				{{ end }}
+            {{if .IsFilePicker}}
+				<!-- *** files *** -->
+				{{ range .Files -}}
+				<div class="panel-files-item _f" data-path="{{ .Path }}">
+                    <svg class="panel-files-icon" height="24" width="24"><use xlink:href="#icon-file"></use></svg>
+                    <span class="panel-files-label">{{ .Name }}</span>
+                    <span class="panel-files-size">{{ formatBytes .Size }}</span>
+                    <span class="panel-files-time">{{ formatTime .ModTime }}</span>
+                </div>
+				{{ end -}}
+            {{ end -}}
+			</div>
+			<!-- ****************************** buttons ****************************** -->
+            {{ $icon := "#icon-folder" -}}
+            {{ $selected := (printf "<b>%s</b>" .Folder) -}}
+            {{ if .IsFilePicker -}}
+            {{ $icon = "#icon-file" -}}
+            {{ $selected = "<b>No file selected</b>" -}}
+            {{ end -}}
+
+			<div class="panel-tools">
+                <svg class="panel-tools-icon">
+                        <use xlink:href="{{$icon}}"></use>
+                    </svg>
+                <span class="panel-tools-state" id="selected">{{$selected}}</span>
+                <button class="button sep" id="bt-cancel">CANCEL</button>
+                <button class="button" id="bt-select">SELECT</button>
+            </div>
+		</div>
+	</div>
+	<!-- ********************************* icons ******************************** -->
+	<svg class="symbol" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5">
+        <symbol id="icon-folder" viewBox="0 0 24 24">
+            <path
+                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+        </symbol>
+        <symbol id="icon-disk" viewBox="0 0 24 24">
+            <path
+                d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
+        </symbol>
+        <symbol id="icon-file" viewBox="0 0 24 24">
+            <path
+                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24">
+            <path
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+        </symbol>
+        <symbol id="icon-mypc" viewBox="0 0 24 24">
+            <path
+                d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+        </symbol>
+        <symbol id="icon-left" viewBox="0 0 24 24">
+            <path d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </symbol>
+        <symbol id="icon-right" viewBox="0 0 24 24">
+            <path d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </symbol>
+        <symbol id="icon-up" viewBox="0 0 24 24">
+            <path d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </symbol>
+        <symbol id="icon-list" viewBox="0 0 24 24">
+            <path d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+        </symbol>
+        <symbol id="icon-grid" viewBox="0 0 24 24">
+            <path
+                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </symbol>
+        <symbol id="icon-hidden" viewBox="0 0 24 24">
+            <path 
+                d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+        </symbol>
+    </svg>
+
+	<script>
+    {{ template "js.tmpl" .}}
+	</script>
+
+	</body>
+
+</html>

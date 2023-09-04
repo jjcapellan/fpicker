@@ -1,0 +1,73 @@
+const FOLDERS = document.getElementById("panel-files").getElementsByClassName("_d");
+const PLACES = document.getElementById("panel-places").getElementsByClassName("panel-places-item");
+const SELECTED_LABEL = document.getElementById("selected");
+const BUTTON_SELECT = document.getElementById("bt-select");
+const BUTTON_CANCEL = document.getElementById("bt-cancel");
+
+window.onload = () => {
+    // Removes query params
+    let uri = window.location.toString();
+    if (uri.indexOf("?") > 0) {
+        let url = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, url);
+    }
+}
+
+{{if .IsFilePicker}}
+const FILES = document.getElementById("panel-files").getElementsByClassName("_f");
+const PICKER_URL = "{{.FilePickerUrl}}";
+const SELECTED_URL = "{{.SelectedFileUrl}}";
+
+let selected = "";
+for (item of FILES) {
+    item.addEventListener("click", clickFile);
+};
+function clickFile(evt) {
+    let name = evt.currentTarget.children[1].innerHTML;
+    selected = evt.currentTarget.dataset.path;
+    SELECTED_LABEL.innerHTML = "<b>" + name + "</b>";
+}
+{{else}}
+const selected = "{{.Path}}"
+const PICKER_URL = "{{.FolderPickerUrl}}";
+const SELECTED_URL = "{{.SelectedFolderUrl}}";
+{{end}}
+
+const root = "{{.Root}}"
+
+for (item of FOLDERS) {
+    item.addEventListener("click", clickFolder);
+}
+
+for (item of PLACES) {
+    item.addEventListener("click", clickPlace);
+};
+
+BUTTON_SELECT.addEventListener("click", handlerSelect);
+BUTTON_CANCEL.addEventListener("click", handlerCancel);
+
+function clickFolder(evt) {
+    let path = evt.currentTarget.dataset.path;
+    let url = PICKER_URL + "?path=" + path + "&root=" + root;
+    window.location.replace(url);
+}
+
+function clickPlace(evt) {
+    /*let path = evt.currentTarget.dataset.path;
+    root = path;
+    resetPlaces();
+    evt.currentTarget.children[1].classList.add("panel-places-selected");*/
+    let path = evt.currentTarget.dataset.path;
+    let url = PICKER_URL + "?path=" + path + "&root=" + path;
+    window.location.replace(url);
+}
+
+function handlerSelect(evt) {
+    const url = SELECTED_URL + "?path=" + selected;
+    fetch(url, { method: 'POST' })
+    .then(()=>window.close());    
+}
+
+function handlerCancel(evt) {
+    window.close();
+}

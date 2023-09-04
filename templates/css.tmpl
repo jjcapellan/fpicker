@@ -1,0 +1,257 @@
+:root {
+    --color-background: #a2a2a2;
+    --color-panel-places-bg: #e1e9ec;
+    --color-text-hover: #c51818;
+    --color-panel-files-bg: #f6f8f3;
+    --color-panel-tools-bg: #546c78;
+    --color-panel-tools-fr: var(--color-panel-places-bg);
+    --color-select-link: #27aae7;
+    --color-text-dark: #2a363c;
+    --color-button-background: var(--color-text-dark);
+    --color-button: var(--color-panel-places-bg);
+    --color-button-background-hover: #9fb2bc;
+    --color-button-hover: var(--color-text-dark);
+
+    --height-panel-tools: 3.5rem;
+    --height-panel-places: calc(100% - (2 * var(--height-panel-tools)));
+    --height-panel-files: var(--height-panel-places);
+
+    --width-size-column: 10ch;
+
+    --font-family-body: Helvetica, Arial, sans-serif;
+    --font-size-body: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    font-kerning: auto;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: var(--font-family-body);
+    font-size: var(--font-size-body);
+}
+
+body {
+    height: 100vh;
+}
+
+.master {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-background);
+}
+
+.container {
+    width: 960px;
+    height: 86%;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    box-shadow: 1px 1px 6px var(--color-panel-tools-bg);
+}
+
+.breadcrumb {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow: hidden;
+
+    color: var(--color-panel-files-bg);
+}
+
+.breadcrumb>span {
+    flex: 0 1 auto;
+    overflow: hidden;
+
+    color: inherit;
+    transition: flex-shrink .3s;
+
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+
+.breadcrumb>span:hover {
+    flex-shrink: 0;
+}
+
+.breadcrumb>span:first-child {
+    flex-shrink: 0;
+}
+
+.breadcrumb>span:nth-last-child(2) {
+    flex-shrink: 0;
+}
+
+.breadcrumb>span:last-child {
+    flex-shrink: 0;
+}
+
+.panel-tools {
+    width: 100%;
+    height: var(--height-panel-tools);
+    padding: 0 1rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+
+    background-color: var(--color-panel-tools-bg);
+    color: var(--color-panel-tools-fr);
+}
+
+.panel-tools-icon {
+    width: 24px;
+    height: 24px;
+
+    fill: none;
+    stroke: var(--color-panel-files-bg);
+}
+
+.panel-tools-state {
+    color: inherit;
+}
+
+.icon-list {
+    display: inherit;
+    margin-left: auto;
+
+    stroke: var(--color-panel-places-bg);
+}
+
+.button {
+    padding: 0.5rem 1rem;
+
+    background-color: var(--color-button-background);
+    color: var(--color-button);
+    transition: background-color .3s;
+
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--color-button-background-hover);
+    color: var(--color-button-hover);
+}
+
+.sep {
+    margin-left: auto;
+}
+
+.panel-places {
+    width: 20%;
+    height: var(--height-panel-places);
+    padding-top: 2rem;
+
+    background-color: var(--color-panel-places-bg);
+}
+
+.panel-places-item {
+    padding: 0.2rem 0.2rem 0.2rem 1rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    color: var(--color-text-dark);
+}
+
+.panel-places-selected {
+    font-weight: bold;
+}
+
+.panel-places-label {
+    flex: 1;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    cursor: pointer;
+}
+
+.panel-places-item:hover {
+    color: var(--color-text-hover);
+}
+
+.panel-places-icon {
+    fill: none;
+    stroke: var(--color-text-dark);
+}
+
+.panel-files {
+    width: 80%;
+    height: var(--height-panel-files);
+    padding-top: 2rem;
+
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background-color: var(--color-panel-files-bg);
+}
+
+.panel-files-item {
+    max-height: 8rem;
+    padding: 0.4rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow: hidden;
+
+    color: var(--color-text-dark);
+
+    word-break: break-all;
+
+    cursor: pointer;
+}
+
+.panel-files-icon {
+    width: 24px;
+    height: 24px;
+
+    fill: none;
+    stroke: var(--color-text-dark);
+}
+
+.panel-files-label {
+    flex: 1;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.panel-files-size {
+    width: var(--width-size-column);
+    margin-left: auto;
+
+    text-align: right;
+}
+
+.panel-files-time {
+    margin-left: 0.5rem;
+}
