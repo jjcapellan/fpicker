@@ -9,12 +9,13 @@ Please be aware that this package does not perform any write, delete, or modific
 <br>
 
 ## Features
-- Web dialogs for file and folder selection
-- Quick access to the Home directory and disk drives
-- Hidden file filtering
-- Supports Linux and Windows (Other OS not tested)  
-<br>
+- [x] Web dialogs for file and folder selection
+- [x] Quick access to the Home directory and disk drives
+- [x] Hidden file filtering
+- [x] Supports Linux and Windows (Other OS not tested)
+- [ ] Visual styles customization  
 
+<br>
 
 ## Installation
 ```bash
