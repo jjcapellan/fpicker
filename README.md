@@ -1,6 +1,6 @@
 # fpicker
 
-This golang package provides a file selection dialog for web applications, granting access to complete local file system paths. Unlike standard HTML <code><input type="file" ...></code> dialogs, which limit access to file paths, **fpicker** offers a versatile alternative for local web app development eliminating the need for complex frameworks.
+This golang package provides a file selection dialog for web applications, granting access to complete local file system paths. Unlike standard HTML <code><input type="file" ...></code> dialogs, which restrict access to full file paths, fpicker does not have this limitation.
 
 **Important Note:**
 Please be aware that this package does not perform any write, delete, or modification operations on local files. However, since it exposes the directory structure of the file system, it should only be used in secure, local environments. Recommended scenarios include integration into emulator frontends, system utilities, and similar use cases.  
@@ -21,11 +21,9 @@ go get github.com/jjcapellan/fpicker
 ```
 
 ## Usage
-This package provides the following api endpoints to interact with the file or folder picker in your web application:
-- (GET)  **/fpicker/file-picker** : Retrieves the file picker page. fpicker registers its own handler to the DefaultServeMux.
-- (GET)  **/fpicker/folder-picker** : Retrieves the folder picker page. fpicker registers its own handler to the DefaultServeMux.
-- (POST) **/fpicker/selected-file?path={full path of selected file}** : this request is sent by "select" button of the picker dialog. You must implement a handler for this route.
-- (POST) **/fpicker/selected-folder?path={full path of selected folder}** : this request is sent by "select" button of the picker dialog. You must implement a handler for this route.  
+1. Call the function <code>Setup(mux *http.ServeMux)</code> (if mux == nil then fpicker will use http.DefaultServeMux). *Setup* configures route handlers for file and folder selection functionalities.
+2. Make a get request to **/fpicker/file-picker** or **/fpicker/folder-picker** to retrieve the file picker or folder picker respectively. The *Setup* function, in the preceding step, added these URLs to the multiplexer's routing configuration.
+3. After the user makes the selection of the file or folder pressing the select button, a post request with the selection is sent to one of this urls: **/fpicker/selected-file?path={full path of selected file}** or **/fpicker/selected-folder?path={full path of selected folder}** respectively. You must implement handlers for this routes.
 
 ## Example
 This example corresponds to the content of the animated gif in this readme. Clicking the button opens the file picker in a new window, and after selecting a file, this window closes, and the file path is displayed on the screen.  
@@ -87,18 +85,28 @@ var ch chan string = make(chan string)
 func main() {
 
 	fs := http.FileServer(http.Dir("./public"))
+	mux := http.NewServeMux()
+	
+	// Setup configures route handlers for file and folder selection functionalities
+    // provided by the fpicker package. Call this function to register the corresponding
+    // HTTP route handlers either on an existing HTTP multiplexer (http.ServeMux) or, if
+    // 'mux' is nil, directly on Go's global HTTP server (http.DefaultServeMux).
+    //
+    // When users make GET requests to the registered URLs, such as FilePickerUrl and
+    // FolderPickerUrl, they can retrieve the respective HTML content for file and folder
+    // pickers.
+	fpicker.Setup(mux)
     
 	// You must handle the route where the selectionn is sent by the file picker
-	http.HandleFunc(fpicker.SelectedFileUrl, handleSelectFile)
+	mux.HandleFunc(fpicker.SelectedFileUrl, handleSelectFile)
 
 	// In this example the route "/sse" is used by an events stream as way to send data to the client
-	http.HandleFunc("/sse", handleSSE)
+	mux.HandleFunc("/sse", handleSSE)
 
-	http.Handle("/", fs)
-
-    // fpicker uses the default servemux
+	mux.Handle("/", fs)
+    
 	log.Print("Listening on :3000...")
-	err := http.ListenAndServe(":3000", nil)
+	err := http.ListenAndServe(":3000", mux)
 	if err != nil {
 		log.Fatal(err)
 	}
