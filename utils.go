@@ -18,13 +18,6 @@ func getRootName(path string) string {
 	return ""
 }
 
-func pathToAbs(path string) string {
-	if !filepath.IsAbs(path) {
-		path = filepath.Join(currentDir, path)
-	}
-	return path
-}
-
 func makeBreadcrumb(root string, path string) []string {
 	bc := []string{}
 
@@ -51,6 +44,13 @@ func makeBreadcrumb(root string, path string) []string {
 
 	}
 	return reverseArray(bc)
+}
+
+func pathToAbs(path string) string {
+	if !filepath.IsAbs(path) {
+		path = filepath.Join(currentDir, path)
+	}
+	return path
 }
 
 func reverseArray(arr []string) []string {

@@ -9,105 +9,104 @@ import (
 	"testing"
 )
 
-func TestHandleFolderPicker(t *testing.T) {
+const (
+	t_root string = "./test_path"
+	t_path string = "./test_path/folder_one"
+)
 
-	root := "./test_path"
-	path := "./test_path/folder_one"
-	absPath := filepath.ToSlash(filepath.Join(currentDir, path))
-	url := FolderPickerUrl + "?path=" + path + "&root=" + root + "&hide=false"
+func TestHandleFolderPicker(t *testing.T) {
+	absPath := filepath.ToSlash(filepath.Join(currentDir, t_path))
+	url := FolderPickerUrl + "?path=" + t_path + "&root=" + t_root + "&hide=false"
 	Setup(nil)
 
-	req, err := http.NewRequest("GET", url, nil)
+	rr, err := getResponse(url, handleFolderPicker)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(handleFolderPicker)
+	checkStatus(rr, t)
 
-	handler.ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Errorf("Expected status %d; got %d", http.StatusOK, rr.Code)
-	}
-
-	b, _ := io.ReadAll(rr.Body)
-
-	bodyStr := string(b)
+	body := readResponseBody(rr, t)
 
 	// Page needs 4 folder icons:
 	// ../ , folder11 , folder12 , *bottom bar selection*
-	htmlSubstr := `<use xlink:href="#icon-folder">`
-	got := strings.Count(bodyStr, htmlSubstr)
-	want := 4
-	if got != want {
-		t.Errorf("Expected #icon-folder count in body %d; got %d\nBody:\n%s", want, got, bodyStr)
-	}
+	checkCount(body, `<use xlink:href="#icon-folder">`, 4, t)
 
 	// Selected folder is stored in compilation time in a constant with value = initial absolute path
-	jsSubstr := `const selected = "` + absPath + `"`
-	if !strings.Contains(bodyStr, jsSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", jsSubstr, bodyStr)
-	}
+	checkString(body, `const selected = "`+absPath+`"`, t)
 
 	// Checks folder names rendering
-	htmlSubstr = `<span class="panel-files-label">folder11</span>`
-	if !strings.Contains(bodyStr, htmlSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", htmlSubstr, bodyStr)
-	}
-	htmlSubstr = `<span class="panel-files-label">folder12</span>`
-	if !strings.Contains(bodyStr, htmlSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", htmlSubstr, bodyStr)
-	}
+	checkString(body, `<span class="panel-files-label">folder11</span>`, t)
+	checkString(body, `<span class="panel-files-label">folder12</span>`, t)
 }
 
 func TestHandleFilePicker(t *testing.T) {
-
-	root := "./test_path"
-	path := "./test_path/folder_one"
-	url := FilePickerUrl + "?path=" + path + "&root=" + root + "&hide=false"
+	url := FilePickerUrl + "?path=" + t_path + "&root=" + t_root + "&hide=false"
 	Setup(nil)
 
-	req, err := http.NewRequest("GET", url, nil)
+	rr, err := getResponse(url, handleFilePicker)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(handleFilePicker)
+	checkStatus(rr, t)
 
-	handler.ServeHTTP(rr, req)
-
-	if rr.Code != http.StatusOK {
-		t.Errorf("Expected status %d; got %d", http.StatusOK, rr.Code)
-	}
-
-	b, _ := io.ReadAll(rr.Body)
-
-	bodyStr := string(b)
+	bodyStr := readResponseBody(rr, t)
 
 	// Page needs 3 file icons:
 	// file11.txt , file12.txt , *bottom bar selection*
-	htmlSubstr := `<use xlink:href="#icon-file">`
-	got := strings.Count(bodyStr, htmlSubstr)
-	want := 3
-	if got != want {
-		t.Errorf("Expected #icon-file count in body %d; got %d\nBody:\n%s", want, got, bodyStr)
-	}
+	checkCount(bodyStr, `<use xlink:href="#icon-file">`, 3, t)
 
 	// Selected file is stored in a variable at runtime, initial value = ""
-	jsSubstr := `let selected = ""`
-	if !strings.Contains(bodyStr, jsSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", jsSubstr, bodyStr)
-	}
+	checkString(bodyStr, `let selected = ""`, t)
 
 	// Checks file names render
-	htmlSubstr = `<span class="panel-files-label">file11.txt</span>`
-	if !strings.Contains(bodyStr, htmlSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", htmlSubstr, bodyStr)
+	checkString(bodyStr, `<span class="panel-files-label">file11.txt</span>`, t)
+	checkString(bodyStr, `<span class="panel-files-label">file12.txt</span>`, t)
+}
+
+/*
+* --- HELPER FUNCTIONS ---
+ */
+
+func checkCount(body string, subString string, want int, t *testing.T) {
+	got := strings.Count(body, subString)
+	if got != want {
+		t.Errorf("Expected %s count in body %d; got %d\nBody:\n%s", subString, want, got, body)
 	}
-	htmlSubstr = `<span class="panel-files-label">file12.txt</span>`
-	if !strings.Contains(bodyStr, htmlSubstr) {
-		t.Errorf("Body should contain: %s\nBody:\n%s", htmlSubstr, bodyStr)
+}
+
+func checkStatus(rr *httptest.ResponseRecorder, t *testing.T) {
+	if rr.Code != http.StatusOK {
+		t.Errorf("Expected status %d; got %d", http.StatusOK, rr.Code)
 	}
+}
+
+func checkString(body string, subString string, t *testing.T) {
+	if !strings.Contains(body, subString) {
+		t.Errorf("Body should contain: %s\nBody:\n%s", subString, body)
+	}
+}
+
+func getResponse(url string, fn func(http.ResponseWriter, *http.Request)) (*httptest.ResponseRecorder, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	rr := httptest.NewRecorder()
+
+	handler := http.HandlerFunc(fn)
+	handler.ServeHTTP(rr, req)
+
+	return rr, nil
+}
+
+func readResponseBody(rr *httptest.ResponseRecorder, t *testing.T) string {
+	b, err := io.ReadAll(rr.Body)
+	if err != nil {
+		t.Errorf("The response body could not be read: %s", err)
+	}
+
+	return string(b)
 }
