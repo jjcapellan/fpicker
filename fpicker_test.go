@@ -14,7 +14,8 @@ func TestHandleFolderPicker(t *testing.T) {
 	root := "./test_path"
 	path := "./test_path/folder_one"
 	absPath := filepath.ToSlash(filepath.Join(currentDir, path))
-	url := FolderPickerUrl + "?path=" + path + "&root=" + root
+	url := FolderPickerUrl + "?path=" + path + "&root=" + root + "&hide=false"
+	Setup(nil)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -64,7 +65,8 @@ func TestHandleFilePicker(t *testing.T) {
 
 	root := "./test_path"
 	path := "./test_path/folder_one"
-	url := FilePickerUrl + "?path=" + path + "&root=" + root
+	url := FilePickerUrl + "?path=" + path + "&root=" + root + "&hide=false"
+	Setup(nil)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
