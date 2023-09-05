@@ -49,7 +49,7 @@ For the sake of simplicity, all the CSS, JavaScript, and HTML code has been incl
         const content = document.getElementById("content");
 
         // The file picker sends the selected file path to the backend, 
-		// which forwards it to this page through a server-side events (SSE) stream.
+        // which forwards it to this page through a server-side events (SSE) stream.
         const eventSource = new EventSource("/sse");
         eventSource.addEventListener("file", (evt) => {
             content.innerText = evt.data;
@@ -60,10 +60,10 @@ For the sake of simplicity, all the CSS, JavaScript, and HTML code has been incl
         function handler() {
             const width = 1100,
                   height = 800,
-				  offset = 48, // Aprox.
+                  offset = 48, // Aprox.
                   left = window.innerWidth / 2 - width / 2,
                   top = window.innerHeight / 2 - height / 2 + offset;
-			// The URL "/fpicker/file-picker" retrieves the file picker page
+            // The URL "/fpicker/file-picker" retrieves the file picker page
             window.open("/fpicker/file-picker", "Select file", `width=${width},height=${height},left=${left},top=${top}`);
         }
     </script>
@@ -94,7 +94,7 @@ func main() {
 	fs := http.FileServer(http.Dir("./public"))
 	mux := http.NewServeMux()
 	
-	// Setup configures route handlers for file and folder selection functionalities
+    // Setup configures route handlers for file and folder selection functionalities
     // provided by the fpicker package. Call this function to register the corresponding
     // HTTP route handlers either on an existing HTTP multiplexer (http.ServeMux) or, if
     // 'mux' is nil, directly on Go's global HTTP server (http.DefaultServeMux).
