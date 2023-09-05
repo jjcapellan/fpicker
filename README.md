@@ -6,27 +6,32 @@ This golang package provides a file selection dialog for web applications, grant
 Please be aware that this package does not perform any write, delete, or modification operations on local files. However, since it exposes the directory structure of the file system, it should only be used in secure, local environments. Recommended scenarios include integration into emulator frontends, system utilities, and similar use cases.  
 
 <p align="center"><img src="readme_imgs/fpicker_capture.gif"></p>  
+<br>
 
 ## Features
 - Web dialogs for file and folder selection
 - Quick access to the Home directory and disk drives
 - Hidden file filtering
 - Supports Linux and Windows (Other OS not tested)  
-
+<br>
 
 
 ## Installation
 ```bash
 go get github.com/jjcapellan/fpicker
 ```
+<br>
 
 ## Usage
 1. Call the function <code>Setup(mux *http.ServeMux)</code> (if mux == nil then fpicker will use http.DefaultServeMux). *Setup* configures route handlers for file and folder selection functionalities.
 2. Make a get request to **/fpicker/file-picker** or **/fpicker/folder-picker** to retrieve the file picker or folder picker respectively. The *Setup* function, in the preceding step, added these URLs to the multiplexer's routing configuration.
 3. After the user makes the selection of the file or folder pressing the select button, a post request with the selection is sent to one of this urls: **/fpicker/selected-file?path={full path of selected file}** or **/fpicker/selected-folder?path={full path of selected folder}** respectively. You must implement handlers for this routes.
+<br><br>
 
 ## Example
 This example corresponds to the content of the animated gif in this readme. Clicking the button opens the file picker in a new window, and after selecting a file, this window closes, and the file path is displayed on the screen.  
+<br>
+
 ### Content of file "/public/index.html"
 For the sake of simplicity, all the CSS, JavaScript, and HTML code has been included in the same file.  
 
@@ -64,6 +69,7 @@ For the sake of simplicity, all the CSS, JavaScript, and HTML code has been incl
 </body>
 </html>
 ```  
+<br>
 
 ### Content of file "main.go"
 The file picker doesn't directly send the selection back to the invoking page but instead utilizes the backend as an intermediary. To relay the file picker's selection back to the client, the backend inserts it into the server-sent events (SSE) stream being listened to by the client.  
@@ -134,3 +140,11 @@ func handleSSE(w http.ResponseWriter, r *http.Request) {
 	}
 }
 ```
+<br>
+
+## Credits
+Appreciation to the [Heroicons](https://heroicons.com/) team for their valuable icon collection used in this project.  
+<br>
+
+## License
+**fpicker** is licensed under the terms of the [MIT](https://opensource.org/licenses/MIT) license.
