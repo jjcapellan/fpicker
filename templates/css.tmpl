@@ -1,15 +1,15 @@
 :root {
-    --color-background: #a2a2a2;
-    --color-panel-places-bg: #e1e9ec;
+    --background-color: #a2a2a2;
+    --background-color-panel-places: #e1e9ec;
     --color-text-hover: #c51818;
-    --color-panel-files-bg: #f6f8f3;
-    --color-panel-tools-bg: #546c78;
-    --color-panel-tools-fr: var(--color-panel-places-bg);
+    --background-color-panel-files: #f6f8f3;
+    --background-color-panel-tools: #546c78;
+    --color-panel-tools: var(--background-color-panel-places);
     --color-select-link: #27aae7;
     --color-text-dark: #2a363c;
-    --color-button-background: var(--color-text-dark);
-    --color-button: var(--color-panel-places-bg);
-    --color-button-background-hover: #9fb2bc;
+    --background-color-button: var(--color-text-dark);
+    --color-button: var(--background-color-panel-places);
+    --background-color-button-hover: #9fb2bc;
     --color-button-hover: var(--color-text-dark);
 
     --height-panel-tools: 3.5rem;
@@ -52,7 +52,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    background-color: var(--color-background);
+    background-color: var(--background-color);
 }
 
 .container {
@@ -63,7 +63,7 @@ body {
     flex-wrap: wrap;
     align-content: flex-start;
 
-    box-shadow: 1px 1px 6px var(--color-panel-tools-bg);
+    box-shadow: 1px 1px 6px var(--background-color-panel-tools);
 }
 
 .breadcrumb {
@@ -75,7 +75,7 @@ body {
     gap: 0.4rem;
     overflow: hidden;
 
-    color: var(--color-panel-files-bg);
+    color: var(--background-color-panel-files);
 }
 
 .breadcrumb>span {
@@ -115,8 +115,8 @@ body {
     gap: 0.5rem;
 
 
-    background-color: var(--color-panel-tools-bg);
-    color: var(--color-panel-tools-fr);
+    background-color: var(--background-color-panel-tools);
+    color: var(--color-panel-tools);
 }
 
 .panel-tools-icon {
@@ -124,7 +124,7 @@ body {
     height: 24px;
 
     fill: none;
-    stroke: var(--color-panel-files-bg);
+    stroke: var(--background-color-panel-files);
 }
 
 .panel-tools-state {
@@ -148,13 +148,13 @@ body {
     display: inherit;
     margin-left: auto;
 
-    stroke: var(--color-panel-places-bg);
+    stroke: var(--background-color-panel-places);
 }
 
 .button {
     padding: 0.5rem 1rem;
 
-    background-color: var(--color-button-background);
+    background-color: var(--background-color-button);
     color: var(--color-button);
     transition: background-color .3s;
 
@@ -165,7 +165,7 @@ body {
 }
 
 .button:hover {
-    background-color: var(--color-button-background-hover);
+    background-color: var(--background-color-button-hover);
     color: var(--color-button-hover);
 }
 
@@ -174,7 +174,7 @@ body {
     height: var(--height-panel-places);
     padding-top: 2rem;
 
-    background-color: var(--color-panel-places-bg);
+    background-color: var(--background-color-panel-places);
 }
 
 .panel-places-item {
@@ -219,7 +219,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
 
-    background-color: var(--color-panel-files-bg);
+    background-color: var(--background-color-panel-files);
 }
 
 .panel-files-item {
