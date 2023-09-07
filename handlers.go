@@ -62,7 +62,7 @@ func show(w http.ResponseWriter, root string, path string, isFilePicker bool, hi
 		FolderPickerUrl   string
 		SelectedFileUrl   string
 		SelectedFolderUrl string
-		Colors            string
+		CssVars           string
 		HideFiles         bool
 		IsFilePicker      bool
 	}{
@@ -78,7 +78,7 @@ func show(w http.ResponseWriter, root string, path string, isFilePicker bool, hi
 		FolderPickerUrl,
 		SelectedFileUrl,
 		SelectedFolderUrl,
-		colors,
+		cssVars,
 		hideHiddenFiles,
 		isFilePicker,
 	}
