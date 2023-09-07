@@ -15,13 +15,13 @@
     <div class="master">
         <div class="container">
             <!-- *************************** tools ********************* -->
-            <div class="panel-tools">
+            <div class="bar">
                 <div class="breadcrumb">
                     {{range .Breadcrumb}}<span>{{.}}</span>/{{end}}                    
                 </div>
                 <label class="pointer sep" title="Hidden files visivility" for="toggle">
                         <input class="toggle" type="checkbox" id="toggle" {{if .HideFiles}}checked{{end}}>
-                        <svg class="panel-tools-icon toggle-icon" height="24" width="24">
+                        <svg class="bar-icon toggle-icon" height="24" width="24">
                             <use xlink:href="#icon-hidden"></use>               
                         </svg>
                     </label>
@@ -85,11 +85,11 @@
             {{ $selected = "<b>No file selected</b>" -}}
             {{ end -}}
 
-			<div class="panel-tools">
-                <svg class="panel-tools-icon">
+			<div class="bar">
+                <svg class="bar-icon">
                         <use xlink:href="{{$icon}}"></use>
                     </svg>
-                <span class="panel-tools-state" id="selected">{{$selected}}</span>
+                <span class="bar-state" id="selected">{{$selected}}</span>
                 <button class="button sep" id="bt-cancel">CANCEL</button>
                 <button class="button" id="bt-select">SELECT</button>
             </div>

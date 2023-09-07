@@ -3,16 +3,16 @@
     --background-color-panel-places: #e1e9ec;
     --color-text-hover: #c51818;
     --background-color-panel-files: #f6f8f3;
-    --background-color-panel-tools: #546c78;
-    --color-panel-tools: var(--background-color-panel-places);
+    --background-color-bar: #546c78;
+    --color-bar: var(--background-color-panel-places);
     --color-text-dark: #2a363c;
     --background-color-button: var(--color-text-dark);
     --color-button: var(--background-color-panel-places);
     --background-color-button-hover: #9fb2bc;
     --color-button-hover: var(--color-text-dark);
 
-    --height-panel-tools: 3.5rem;
-    --height-panel-places: calc(100% - (2 * var(--height-panel-tools)));
+    --height-bar: 3.5rem;
+    --height-panel-places: calc(100% - (2 * var(--height-bar)));
     --height-panel-files: var(--height-panel-places);
 
     --width-size-column: 10ch;
@@ -62,7 +62,7 @@ body {
     flex-wrap: wrap;
     align-content: flex-start;
 
-    box-shadow: 1px 1px 6px var(--background-color-panel-tools);
+    box-shadow: 1px 1px 6px var(--background-color-bar);
 }
 
 .breadcrumb {
@@ -104,9 +104,9 @@ body {
     flex-shrink: 0;
 }
 
-.panel-tools {
+.bar {
     width: 100%;
-    height: var(--height-panel-tools);
+    height: var(--height-bar);
     padding: 0 1rem;
 
     display: flex;
@@ -114,11 +114,11 @@ body {
     gap: 0.5rem;
 
 
-    background-color: var(--background-color-panel-tools);
-    color: var(--color-panel-tools);
+    background-color: var(--background-color-bar);
+    color: var(--color-bar);
 }
 
-.panel-tools-icon {
+.bar-icon {
     width: 24px;
     height: 24px;
 
@@ -126,7 +126,7 @@ body {
     stroke: var(--background-color-panel-files);
 }
 
-.panel-tools-state {
+.bar-state {
     color: inherit;
 }
 
