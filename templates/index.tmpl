@@ -47,32 +47,32 @@
 				{{ end -}}
 			</div>
 			<!-- ****************************** files and folders ******************** -->
-			<div class="panel-files" id="panel-files">
+			<div class="content" id="content">
 			    <!-- *** folders *** -->
                 {{- if ne .Path .Root -}}
-                <div class="panel-files-item _d" data-path="{{ getParent .Path }}">
-                    <svg class="panel-files-icon">
+                <div class="content-item _d" data-path="{{ getParent .Path }}">
+                    <svg class="content-icon">
                         <use xlink:href="#icon-folder"></use>
                     </svg>
-                    <span class="panel-files-label">../</span>
+                    <span class="content-label">../</span>
                 </div>
                 {{end}}
 				{{ range .Folders -}}
-                <div class="panel-files-item _d" data-path="{{ .Path }}">
-                    <svg class="panel-files-icon">
+                <div class="content-item _d" data-path="{{ .Path }}">
+                    <svg class="content-icon">
                         <use xlink:href="#icon-folder"></use>
                     </svg>
-                    <span class="panel-files-label">{{ .Name }}</span>
+                    <span class="content-label">{{ .Name }}</span>
                 </div>
 				{{ end }}
             {{if .IsFilePicker}}
 				<!-- *** files *** -->
 				{{ range .Files -}}
-				<div class="panel-files-item _f" data-path="{{ .Path }}">
-                    <svg class="panel-files-icon" height="24" width="24"><use xlink:href="#icon-file"></use></svg>
-                    <span class="panel-files-label">{{ .Name }}</span>
-                    <span class="panel-files-size">{{ formatBytes .Size }}</span>
-                    <span class="panel-files-time">{{ formatTime .ModTime }}</span>
+				<div class="content-item _f" data-path="{{ .Path }}">
+                    <svg class="content-icon" height="24" width="24"><use xlink:href="#icon-file"></use></svg>
+                    <span class="content-label">{{ .Name }}</span>
+                    <span class="content-size">{{ formatBytes .Size }}</span>
+                    <span class="content-time">{{ formatTime .ModTime }}</span>
                 </div>
 				{{ end -}}
             {{ end -}}

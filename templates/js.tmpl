@@ -1,4 +1,4 @@
-const FOLDERS = document.getElementById("panel-files").getElementsByClassName("_d");
+const FOLDERS = document.getElementById("content").getElementsByClassName("_d");
 const PLACES = document.getElementById("sidebar").getElementsByClassName("sidebar-item");
 const SELECTED_LABEL = document.getElementById("selected");
 const BUTTON_SELECT = document.getElementById("bt-select");
@@ -15,7 +15,7 @@ window.onload = () => {
 }
 
 {{if .IsFilePicker}}
-const FILES = document.getElementById("panel-files").getElementsByClassName("_f");
+const FILES = document.getElementById("content").getElementsByClassName("_f");
 const PICKER_URL = "{{.FilePickerUrl}}";
 const SELECTED_URL = "{{.SelectedFileUrl}}";
 
