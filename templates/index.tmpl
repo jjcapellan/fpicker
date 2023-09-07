@@ -27,22 +27,22 @@
                     </label>
             </div>
 			<!-- *************************** places ********************* -->
-            <div class="panel-places" id="panel-places">
+            <div class="sidebar" id="sidebar">
                 <!-- *** Home *** -->
-			    <div class="panel-places-item" data-path="{{.Home}}">
-                    <svg class="panel-places-icon" height="32" width="32">
+			    <div class="sidebar-item" data-path="{{.Home}}">
+                    <svg class="sidebar-icon" height="32" width="32">
                         <use xlink:href="#icon-home"></use>
                     </svg>
-                    <span class="panel-places-label {{if eq .Root .Home}}panel-places-selected{{end}}">Home</span>
+                    <span class="sidebar-label {{if eq .Root .Home}}sidebar-selected{{end}}">Home</span>
                 </div>
                 <!-- *** Drives *** -->
                 {{ $Root := .Root -}}
 				{{ range .Drives -}}
-                <div class="panel-places-item {{if eq $Root .Name}}panel-places-selected{{end}}" data-path="{{ .Path }}">
-                    <svg class="panel-places-icon" height="32" width="32">
+                <div class="sidebar-item {{if eq $Root .Name}}sidebar-selected{{end}}" data-path="{{ .Path }}">
+                    <svg class="sidebar-icon" height="32" width="32">
                         <use xlink:href="#icon-disk"></use>
                     </svg>
-                    <span class="panel-places-label" {{if gt (len .Name) 12}}title="{{.Name}}"{{end}}>{{.Name}}</span>
+                    <span class="sidebar-label" {{if gt (len .Name) 12}}title="{{.Name}}"{{end}}>{{.Name}}</span>
                 </div>
 				{{ end -}}
 			</div>

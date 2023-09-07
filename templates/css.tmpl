@@ -1,19 +1,19 @@
 :root {
     --background-color: #a2a2a2;
-    --background-color-panel-places: #e1e9ec;
+    --background-color-sidebar: #e1e9ec;
     --color-text-hover: #c51818;
     --background-color-panel-files: #f6f8f3;
     --background-color-bar: #546c78;
-    --color-bar: var(--background-color-panel-places);
+    --color-bar: var(--background-color-sidebar);
     --color-text-dark: #2a363c;
     --background-color-button: var(--color-text-dark);
-    --color-button: var(--background-color-panel-places);
+    --color-button: var(--background-color-sidebar);
     --background-color-button-hover: #9fb2bc;
     --color-button-hover: var(--color-text-dark);
 
     --height-bar: 3.5rem;
-    --height-panel-places: calc(100% - (2 * var(--height-bar)));
-    --height-panel-files: var(--height-panel-places);
+    --height-sidebar: calc(100% - (2 * var(--height-bar)));
+    --height-panel-files: var(--height-sidebar);
 
     --width-size-column: 10ch;
 
@@ -161,15 +161,15 @@ body {
     color: var(--color-button-hover);
 }
 
-.panel-places {
+.sidebar {
     width: 20%;
-    height: var(--height-panel-places);
+    height: var(--height-sidebar);
     padding-top: 2rem;
 
-    background-color: var(--background-color-panel-places);
+    background-color: var(--background-color-sidebar);
 }
 
-.panel-places-item {
+.sidebar-item {
     padding: 0.2rem 0.2rem 0.2rem 1rem;
 
     display: flex;
@@ -179,11 +179,11 @@ body {
     color: var(--color-text-dark);
 }
 
-.panel-places-selected {
+.sidebar-selected {
     font-weight: bold;
 }
 
-.panel-places-label {
+.sidebar-label {
     flex: 1;
     overflow: hidden;
 
@@ -193,11 +193,11 @@ body {
     cursor: pointer;
 }
 
-.panel-places-item:hover {
+.sidebar-item:hover {
     color: var(--color-text-hover);
 }
 
-.panel-places-icon {
+.sidebar-icon {
     fill: none;
     stroke: var(--color-text-dark);
 }
