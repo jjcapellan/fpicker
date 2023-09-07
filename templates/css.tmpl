@@ -31,6 +31,8 @@
 
     --font-family-body: Helvetica, Arial, sans-serif;
     --font-size-body: 16px;
+
+    {{ if ne . "" }}{{ . }}{{ end }}
 }
 
 * {

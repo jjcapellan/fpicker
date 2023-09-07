@@ -13,6 +13,7 @@ var (
 	home       string
 	tmpl       *template.Template
 	currentDir string
+	colors     string = ""
 )
 
 const (
@@ -27,6 +28,14 @@ func init() {
 	home, _ = fsinfo.GetHomePath()
 	tmpl, _ = initTemplates()
 	currentDir, _ = os.Getwd()
+}
+
+func ResetColor() {
+	colors = ""
+}
+
+func SetColor(cssColors string) {
+	colors = cssColors
 }
 
 // Setup configures route handlers for file and folder selection functionalities
