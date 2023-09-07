@@ -1,15 +1,27 @@
 :root {
+    --color-dark: #2a363c;
+
+    /* Body */
     --background-color: #a2a2a2;
-    --background-color-sidebar: #e1e9ec;
-    --color-text-hover: #c51818;
+    
+    /* Content */
     --background-color-content: #f6f8f3;
+    --color-content: var(--color-dark);
+
+    /* Sidebar */
+    --background-color-sidebar: #e1e9ec;
+    --color-sidebar: var(--color-dark);
+    --color-sidebar-hover: #c51818;
+
+    /* Bars */
     --background-color-bar: #546c78;
     --color-bar: var(--background-color-sidebar);
-    --color-text-dark: #2a363c;
-    --background-color-button: var(--color-text-dark);
+
+    /* Buttons */
+    --background-color-button: var(--color-dark);
     --color-button: var(--background-color-sidebar);
     --background-color-button-hover: #9fb2bc;
-    --color-button-hover: var(--color-text-dark);
+    --color-button-hover: var(--color-dark);
 
     --height-bar: 3.5rem;
     --height-sidebar: calc(100% - (2 * var(--height-bar)));
@@ -36,6 +48,7 @@ html {
 
 body {
     height: 100vh;
+    background-color: var(--background-color);
 }
 
 .master {
@@ -49,9 +62,7 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    background-color: var(--background-color);
+    justify-content: center;    
 }
 
 .container {
@@ -74,7 +85,7 @@ body {
     gap: 0.4rem;
     overflow: hidden;
 
-    color: var(--background-color-content);
+    color: var(--color-bar);
 }
 
 .breadcrumb>span {
@@ -123,7 +134,7 @@ body {
     height: 24px;
 
     fill: none;
-    stroke: var(--background-color-content);
+    stroke: var(--color-bar);
 }
 
 .bar-state {
@@ -167,6 +178,7 @@ body {
     padding-top: 2rem;
 
     background-color: var(--background-color-sidebar);
+    color: var(--color-sidebar);
 }
 
 .sidebar-item {
@@ -176,7 +188,7 @@ body {
     align-items: center;
     gap: 0.5rem;
 
-    color: var(--color-text-dark);
+    color: inherit;
 }
 
 .sidebar-selected {
@@ -194,12 +206,12 @@ body {
 }
 
 .sidebar-item:hover {
-    color: var(--color-text-hover);
+    color: var(--color-sidebar-hover);
 }
 
 .sidebar-icon {
     fill: none;
-    stroke: var(--color-text-dark);
+    stroke: var(--color-sidebar);
 }
 
 .content {
@@ -212,6 +224,7 @@ body {
     overflow-y: auto;
 
     background-color: var(--background-color-content);
+    color: var(--color-content);
 }
 
 .content-item {
@@ -223,7 +236,7 @@ body {
     gap: 0.5rem;
     overflow: hidden;
 
-    color: var(--color-text-dark);
+    color: inherit;
 
     word-break: break-all;
 
@@ -235,7 +248,7 @@ body {
     height: 24px;
 
     fill: none;
-    stroke: var(--color-text-dark);
+    stroke: var(--color-content);
 }
 
 .content-label {
