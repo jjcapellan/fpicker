@@ -17,9 +17,10 @@ const (
 func TestHandleFolderPicker(t *testing.T) {
 	absPath := filepath.ToSlash(filepath.Join(currentDir, t_path))
 	url := FolderPickerUrl + "?path=" + t_path + "&root=" + t_root + "&hide=false"
-	Setup(nil)
+	mux := http.NewServeMux()
+	Setup(mux)
 
-	rr, err := getResponse(url, handleFolderPicker)
+	rr, err := getResponse(url, mux, handleFolderPicker)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -36,15 +37,16 @@ func TestHandleFolderPicker(t *testing.T) {
 	checkString(body, `const selected = "`+absPath+`"`, t)
 
 	// Checks folder names rendering
-	checkString(body, `<span class="panel-files-label">folder11</span>`, t)
-	checkString(body, `<span class="panel-files-label">folder12</span>`, t)
+	checkString(body, `<span class="content-label">folder11</span>`, t)
+	checkString(body, `<span class="content-label">folder12</span>`, t)
 }
 
 func TestHandleFilePicker(t *testing.T) {
 	url := FilePickerUrl + "?path=" + t_path + "&root=" + t_root + "&hide=false"
-	Setup(nil)
+	mux := http.NewServeMux()
+	Setup(mux)
 
-	rr, err := getResponse(url, handleFilePicker)
+	rr, err := getResponse(url, mux, handleFilePicker)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,8 +63,8 @@ func TestHandleFilePicker(t *testing.T) {
 	checkString(bodyStr, `let selected = ""`, t)
 
 	// Checks file names render
-	checkString(bodyStr, `<span class="panel-files-label">file11.txt</span>`, t)
-	checkString(bodyStr, `<span class="panel-files-label">file12.txt</span>`, t)
+	checkString(bodyStr, `<span class="content-label">file11.txt</span>`, t)
+	checkString(bodyStr, `<span class="content-label">file12.txt</span>`, t)
 }
 
 /*
@@ -88,7 +90,7 @@ func checkString(body string, subString string, t *testing.T) {
 	}
 }
 
-func getResponse(url string, fn func(http.ResponseWriter, *http.Request)) (*httptest.ResponseRecorder, error) {
+func getResponse(url string, mux *http.ServeMux, fn func(http.ResponseWriter, *http.Request)) (*httptest.ResponseRecorder, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -96,8 +98,7 @@ func getResponse(url string, fn func(http.ResponseWriter, *http.Request)) (*http
 
 	rr := httptest.NewRecorder()
 
-	handler := http.HandlerFunc(fn)
-	handler.ServeHTTP(rr, req)
+	mux.ServeHTTP(rr, req)
 
 	return rr, nil
 }
