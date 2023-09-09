@@ -13,7 +13,8 @@ Please be aware that this package does not perform any write, delete, or modific
 - [x] Quick access to the Home directory and disk drives
 - [x] Hidden file filtering
 - [x] Supports Linux and Windows (Other OS not tested)
-- [ ] Visual styles customization  
+- [x] CSS variables customization  
+- [ ] Web fonts support
 
 <br>
 
@@ -141,6 +142,42 @@ func handleSSE(w http.ResponseWriter, r *http.Request) {
 	}
 }
 ```
+<br>
+
+## CSS variables customization
+**fpicker** provides the function `SetCSSVars(vars string)` to inject css in the *:root* block of the css template. This function should be used to override de default css variables. Currently the default css variables that can be modified are:
+```
+--color-dark: #2a363c;
+
+/* Body */
+--background-color: #a2a2a2;
+
+/* Content */
+--background-color-content: #f6f8f3;
+--color-content:            var(--color-dark);
+
+/* Sidebar */
+--background-color-sidebar: #e1e9ec;
+--color-sidebar:            var(--color-dark);
+--color-sidebar-hover:      #c51818;
+
+/* Bars */
+--background-color-bar: #546c78;
+--color-bar:            var(--background-color-sidebar);
+
+/* Buttons */
+--background-color-button:       var(--color-dark);
+--color-button:                  var(--background-color-sidebar);
+--background-color-button-hover: #9fb2bc;
+--color-button-hover:            var(--color-dark);
+
+--font-family-body: Helvetica, Arial, sans-serif;
+```
+Example:
+```go
+fpicker.SetCssVars("--background-color-bar: #6c5478; --color-bar: white;")
+```  
+
 <br>
 
 ## Credits
