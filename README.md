@@ -1,6 +1,8 @@
 # fpicker
 
-This golang package provides a file selection dialog for web applications, granting access to complete local file system paths. Unlike standard HTML <code><input type="file" ...></code> dialogs, which restrict access to full file paths, fpicker does not have this limitation.
+This golang package provides a file selection dialog for web applications, granting access to complete local file system paths. Unlike standard HTML <code><input type="file" ...></code> dialogs, which restrict access to full file paths, **fpicker** does not have this limitation.  
+
+**fpicker** is a SSR (server side rendering) solution. It primarily relies on the [fsinfo](https://github.com/jjcapellan/fsinfo) package to collect file system data and then utilizes this information to execute relevant templates.
 
 **Important Note:**
 Please be aware that this package does not perform any write, delete, or modification operations on local files. However, since it exposes the directory structure of the file system, it should only be used in secure, local environments. Recommended scenarios include integration into emulator frontends, system utilities, and similar use cases.  
